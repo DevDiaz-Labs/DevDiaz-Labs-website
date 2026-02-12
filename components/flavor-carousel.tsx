@@ -18,6 +18,7 @@ const products = [
     accentColor: "#00FF00",
     tags: ["Inteligencia Emocional", "Análisis de Patrones", "Bienestar mental"],
     status: "available",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.devdiaz.sensu",
   },
   // TODO: Descomentar cuando Gritia esté lista para producción
   // {
@@ -254,10 +255,12 @@ export function FlavorCarousel() {
                         ))}
                       </motion.div>
 
-                      {/* TODO: Descomentar cuando el enlace de Play Store esté activo */}
-                      {/* {currentProduct.status === "available" ? (
-                        <motion.button
-                          className="px-6 py-3 rounded-full font-bold text-sm tracking-wide w-full md:w-auto relative overflow-hidden cursor-pointer"
+                      {currentProduct.status === "available" ? (
+                        <motion.a
+                          href={currentProduct.playStoreUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-10 px-6 py-3 rounded-full font-bold text-sm tracking-wide w-full md:w-auto relative overflow-hidden flex items-center justify-center cursor-pointer"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -272,8 +275,8 @@ export function FlavorCarousel() {
                             transition={{ duration: 0.5 }}
                           />
                           <span className="relative z-10">Descargar App</span>
-                        </motion.button>
-                      ) : null} */}
+                        </motion.a>
+                      ) : null}
                     </div>
                   </div>
                 </motion.div>
