@@ -1,13 +1,95 @@
 "use client"
 
-import { motion } from "framer-motion"
+import type React from "react"
+import { motion, useMotionValue, useSpring } from "framer-motion"
+import { useRef } from "react"
 
 import Link from "next/link"
 import { EXTERNAL_LINKS } from "@/lib/constants"
 
+/* ── Magnetic Icon Sub-component ─────────────────────────────── */
+function MagneticIcon({
+  href,
+  label,
+  children,
+}: {
+  href: string
+  label: string
+  children: React.ReactNode
+}) {
+  const ref = useRef<HTMLAnchorElement>(null)
+
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const springX = useSpring(x, { stiffness: 200, damping: 15 })
+  const springY = useSpring(y, { stiffness: 200, damping: 15 })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = ref.current?.getBoundingClientRect()
+    if (!rect) return
+    const dx = e.clientX - (rect.left + rect.width / 2)
+    const dy = e.clientY - (rect.top + rect.height / 2)
+    x.set(dx * 0.35)
+    y.set(dy * 0.35)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-[#00FF00] hover:border-[#00FF00]/40 hover:shadow-[0_0_18px_rgba(0,255,0,0.2)] transition-colors duration-300"
+    >
+      {children}
+    </motion.a>
+  )
+}
+
+/* ── Social Links Config ─────────────────────────────────────── */
+const SOCIAL_LINKS = [
+  {
+    href: "https://www.instagram.com/devdiaz_labs?igsh=MXMzbmx1dDhzdzM2OA==",
+    label: "Instagram",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.facebook.com/share/17jmbhbGgB/",
+    label: "Facebook",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.tiktok.com/@devdiazlabs?_r=1&_t=ZS-93s7OAopWW9",
+    label: "TikTok",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M16.6 5.82A4.278 4.278 0 0115.54 3h-3.09v12.4a2.592 2.592 0 01-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.57 0-1.42 1.18-2.58 2.6-2.58.27 0 .53.04.78.11V9.72c-.26-.04-.52-.06-.78-.06A6.164 6.164 0 003.72 15.8 6.164 6.164 0 009.86 22a6.164 6.164 0 006.14-6.14V9.72a7.698 7.698 0 004.5 1.44V8.07a4.278 4.278 0 01-3.9-2.25z" />
+      </svg>
+    ),
+  },
+]
+
+/* ── Footer Component ────────────────────────────────────────── */
 export function Footer() {
-
-
   return (
     <footer id="contact" className="relative bg-[#121212] pt-24 pb-6 overflow-hidden">
       {/* Background Gradient */}
@@ -92,6 +174,21 @@ export function Footer() {
           </p>
         </motion.div>
 
+        {/* Social Icons – Magnetic Band */}
+        <motion.div
+          className="flex justify-center items-center gap-5 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          {SOCIAL_LINKS.map((social) => (
+            <MagneticIcon key={social.label} href={social.href} label={social.label}>
+              {social.icon}
+            </MagneticIcon>
+          ))}
+        </motion.div>
+
         {/* Minimalist Footer Bar */}
 
         <motion.div
@@ -113,7 +210,6 @@ export function Footer() {
           </motion.div>
 
           <p className="text-white/40 font-mono text-xs">© 2026 DevDiaz Labs</p>
-
 
         </motion.div>
       </div>
