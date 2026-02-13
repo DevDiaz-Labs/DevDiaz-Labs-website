@@ -22,7 +22,7 @@ import { useEffect, useRef, useCallback } from "react"
 const PARTICLES_DESKTOP_LARGE = 115    // Desktop Grande >1400px: dense "neural network" look
 const PARTICLES_LAPTOP = 75            // Laptop Estándar 1024-1400px: balanced for i5 CPUs
 const PARTICLES_TABLET = 45            // Tablet 768-1024px: light
-const PARTICLES_MOBILE = 28            // Mobile <768px: minimal (performance priority)
+const PARTICLES_MOBILE = 18            // Mobile <768px: minimal (performance priority)
 
 const MOBILE_BREAKPOINT = 768
 const TABLET_BREAKPOINT = 1024
@@ -77,6 +77,7 @@ export function InteractiveGrid() {
     const animationFrameRef = useRef<number>(0)
     const dimensionsRef = useRef({ width: 0, height: 0 })
     const isUnmountedRef = useRef(false)
+    const isVisibleRef = useRef(true)
 
     // Initialize particles with responsive count
     const initializeParticles = useCallback((width: number, height: number) => {
@@ -297,8 +298,8 @@ export function InteractiveGrid() {
             }
         }
 
-        // Continue animation loop only if not unmounted
-        if (!isUnmountedRef.current) {
+        // Continue animation loop only if not unmounted AND visible on screen
+        if (!isUnmountedRef.current && isVisibleRef.current) {
             animationFrameRef.current = requestAnimationFrame(animate)
         }
     }, [])
@@ -314,6 +315,23 @@ export function InteractiveGrid() {
         window.addEventListener("touchmove", handleTouchMove, { passive: true })
         window.addEventListener("touchend", handleTouchEnd)
 
+        // IntersectionObserver: pause animation when canvas is off-screen
+        const canvas = canvasRef.current
+        let observer: IntersectionObserver | null = null
+        if (canvas) {
+            observer = new IntersectionObserver(
+                ([entry]) => {
+                    isVisibleRef.current = entry.isIntersecting
+                    // Resume animation loop when becoming visible again
+                    if (entry.isIntersecting && !isUnmountedRef.current) {
+                        animationFrameRef.current = requestAnimationFrame(animate)
+                    }
+                },
+                { threshold: 0.05 }
+            )
+            observer.observe(canvas)
+        }
+
         animationFrameRef.current = requestAnimationFrame(animate)
 
         return () => {
@@ -325,6 +343,9 @@ export function InteractiveGrid() {
             window.removeEventListener("mouseleave", handleMouseLeave)
             window.removeEventListener("touchmove", handleTouchMove)
             window.removeEventListener("touchend", handleTouchEnd)
+
+            // Disconnect observer
+            if (observer) observer.disconnect()
 
             // Cancel any pending animation frame
             if (animationFrameRef.current) {
