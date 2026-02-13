@@ -332,7 +332,12 @@ export function InteractiveGrid() {
             observer.observe(canvas)
         }
 
-        animationFrameRef.current = requestAnimationFrame(animate)
+        // Delay canvas animation start to let the browser finish painting text (LCP) first
+        const startDelay = setTimeout(() => {
+            if (!isUnmountedRef.current) {
+                animationFrameRef.current = requestAnimationFrame(animate)
+            }
+        }, 500)
 
         return () => {
             // Mark as unmounted to stop animation loop
@@ -343,6 +348,9 @@ export function InteractiveGrid() {
             window.removeEventListener("mouseleave", handleMouseLeave)
             window.removeEventListener("touchmove", handleTouchMove)
             window.removeEventListener("touchend", handleTouchEnd)
+
+            // Clear delayed start if component unmounts early
+            clearTimeout(startDelay)
 
             // Disconnect observer
             if (observer) observer.disconnect()
