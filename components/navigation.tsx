@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { useLenis } from "lenis/react"
+
 import { Menu, X } from "lucide-react"
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const lenis = useLenis()
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,8 +21,10 @@ export function Navigation() {
 
   const scrollToSection = (id: string) => {
     const element = document.querySelector(id)
-    if (element && lenis) {
-      lenis.scrollTo(element as HTMLElement, { offset: -100 })
+    if (element) {
+      const offset = 100
+      const top = element.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: "smooth" })
     }
     setMobileMenuOpen(false)
   }

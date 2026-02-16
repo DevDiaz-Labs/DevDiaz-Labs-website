@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 import { useRef } from "react"
 import { InteractiveGrid } from "./interactive-grid"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 /**
  * Hero Section - Premium Tech Aesthetic with Interactive Background
@@ -10,6 +11,10 @@ import { InteractiveGrid } from "./interactive-grid"
  * Architecture follows SOLID principles:
  * - SRP: Interactive grid separated to InteractiveGrid component
  * - DRY: Button styles extracted to reusable constants
+ * 
+ * Performance:
+ * - InteractiveGrid canvas is disabled on mobile (<768px) to save CPU/GPU
+ * - Parallax scroll effect is disabled on mobile for smoother scrolling
  * 
  * Accessibility:
  * - WCAG AA compliant contrast: dark text on white background
@@ -39,11 +44,15 @@ const BUTTON_SECONDARY = `${BUTTON_BASE} border-2 border-gray-900 text-gray-900 
 
 export function HeroSection() {
   const ref = useRef(null)
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   })
 
+  // Parallax: springs always computed (hooks can't be conditional),
+  // but only applied to DOM on desktop via style prop
   const rawOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
   const opacity = useSpring(rawOpacity, springConfig)
 
@@ -57,12 +66,12 @@ export function HeroSection() {
       aria-label="Sección principal - DevDiaz Labs"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white"
     >
-      {/* Interactive Canvas Grid Background (z-0) */}
-      <InteractiveGrid />
+      {/* Interactive Canvas Grid Background — desktop only for performance */}
+      {isDesktop && <InteractiveGrid />}
 
       {/* Main Content Container (z-10 - above canvas) */}
       <motion.div
-        style={{ opacity, y }}
+        style={isDesktop ? { opacity, y } : undefined}
         className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 py-20"
       >
         <div className="flex flex-col items-center justify-center text-center space-y-8">
