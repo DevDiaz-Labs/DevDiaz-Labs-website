@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useRef, useEffect, useCallback } from "react"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 interface ClickSparkProps {
   sparkColor?: string
@@ -34,8 +35,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sparksRef = useRef<Spark[]>([])
   const startTimeRef = useRef<number | null>(null)
+  const isDesktop = useMediaQuery("(min-width: 768px)")
 
   useEffect(() => {
+    if (!isDesktop) return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -66,7 +70,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
       ro.disconnect()
       clearTimeout(resizeTimeout)
     }
-  }, [])
+  }, [isDesktop])
 
   const easeFunc = useCallback(
     (t: number) => {
@@ -85,6 +89,8 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   )
 
   useEffect(() => {
+    if (!isDesktop) return
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")
@@ -133,7 +139,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     return () => {
       cancelAnimationFrame(animationId)
     }
-  }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale])
+  }, [isDesktop, sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale])
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     const canvas = canvasRef.current
@@ -151,6 +157,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }))
 
     sparksRef.current.push(...newSparks)
+  }
+
+  // On mobile: render children directly without the click-intercepting wrapper
+  if (!isDesktop) {
+    return <>{children}</>
   }
 
   return (
@@ -177,3 +188,4 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 }
 
 export default ClickSpark
+
