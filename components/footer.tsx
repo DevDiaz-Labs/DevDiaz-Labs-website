@@ -6,6 +6,7 @@ import { useRef } from "react"
 
 import Link from "next/link"
 import { EXTERNAL_LINKS } from "@/lib/constants"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 /* ── Magnetic Icon Sub-component ─────────────────────────────── */
 function MagneticIcon({
@@ -18,6 +19,7 @@ function MagneticIcon({
   children: React.ReactNode
 }) {
   const ref = useRef<HTMLAnchorElement>(null)
+  const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -25,6 +27,7 @@ function MagneticIcon({
   const springY = useSpring(y, { stiffness: 200, damping: 15 })
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isDesktop) return
     const rect = ref.current?.getBoundingClientRect()
     if (!rect) return
     const dx = e.clientX - (rect.left + rect.width / 2)
@@ -47,7 +50,7 @@ function MagneticIcon({
       aria-label={label}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
+      style={isDesktop ? { x: springX, y: springY } : undefined}
       className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-[#00FF00] hover:border-[#00FF00]/40 hover:shadow-[0_0_18px_rgba(0,255,0,0.2)] transition-colors duration-300"
     >
       {children}
