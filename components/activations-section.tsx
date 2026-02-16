@@ -123,7 +123,7 @@ export function ActivationsSection() {
                 <Link
                   href={service.href}
                   {...(service.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="mt-6 pt-6 border-t border-white/10 flex items-center text-[#00FF00] font-bold text-sm tracking-wide opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 cursor-pointer"
+                  className="mt-6 pt-6 border-t border-white/10 flex items-center text-[#00FF00] font-bold text-sm tracking-wide transition-all duration-300 cursor-pointer md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0"
                 >
                   {service.buttonText}
                   <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
