@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 
 import { Menu, X } from "lucide-react"
 
@@ -10,6 +11,9 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+
+  const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +24,11 @@ export function Navigation() {
   }, [])
 
   const scrollToSection = (id: string) => {
+    if (pathname !== "/") {
+      router.push(`/${id}`)
+      return
+    }
+
     const element = document.querySelector(id)
     if (element) {
       const offset = 100
@@ -33,6 +42,7 @@ export function Navigation() {
     { label: "Inicio", href: "#hero" },
     { label: "Productos", href: "#products" },
     { label: "Servicios", href: "#services" },
+    { label: "Referidos", href: "/referidos" },
     { label: "Contacto", href: "#contact" },
   ]
 
@@ -51,32 +61,53 @@ export function Navigation() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <span className={scrolled ? "text-white" : "text-black"}>DevDiaz</span>
+            <span className={scrolled || pathname !== "/" ? "text-white" : "text-black"}>DevDiaz</span>
             <span className="text-[#00FF00] ml-1">Labs</span>
           </motion.div>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((item, i) => (
-            <motion.button
-              key={item.label}
-              onClick={() => scrollToSection(item.href)}
-              className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
-                }`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {item.label}
-              <motion.span
-                className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#00FF00] origin-left"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-              />
-            </motion.button>
+            item.href.startsWith("#") ? (
+              <motion.button
+                key={item.label}
+                onClick={() => scrollToSection(item.href)}
+                className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || pathname !== "/" ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
+                  }`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {item.label}
+                <motion.span
+                  className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#00FF00] origin-left"
+                  initial={{ scaleX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+                />
+              </motion.button>
+            ) : (
+              <Link key={item.label} href={item.href}>
+                <motion.div
+                  className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || pathname !== "/" ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
+                    }`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item.label}
+                  <motion.span
+                    className={`absolute -bottom-1 left-0 w-full h-0.5 bg-[#00FF00] origin-left ${pathname === item.href ? "scale-x-100" : "scale-x-0"}`}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+                  />
+                </motion.div>
+              </Link>
+            )
           ))}
         </div>
 
@@ -149,16 +180,29 @@ export function Navigation() {
           >
             <div className="px-6 py-4 space-y-4">
               {navLinks.map((item, i) => (
-                <motion.button
-                  key={item.label}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left text-white/80 hover:text-[#00FF00] text-lg font-medium py-2 cursor-pointer"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  {item.label}
-                </motion.button>
+                item.href.startsWith("#") ? (
+                  <motion.button
+                    key={item.label}
+                    onClick={() => scrollToSection(item.href)}
+                    className="block w-full text-left text-white/80 hover:text-[#00FF00] text-lg font-medium py-2 cursor-pointer"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ) : (
+                  <Link key={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+                    <motion.div
+                      className={`block w-full text-left text-lg font-medium py-2 cursor-pointer transition-colors ${pathname === item.href ? "text-[#00FF00]" : "text-white/80 hover:text-[#00FF00]"}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      {item.label}
+                    </motion.div>
+                  </Link>
+                )
               ))}
               <motion.button
                 onClick={() => scrollToSection("#contacto-final")}
