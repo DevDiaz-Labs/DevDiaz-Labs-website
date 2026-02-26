@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   title: "DevDiaz Labs | Impulsa Tu Ambición",
   description: "Desarrollo de apps que transforman tu día a día. IA emocional, fitness inteligente y más.",
   keywords: ["desarrollo apps", "software", "IA", "React", "mobile dev", "DevDiaz Labs"],
-  generator: 'v0.app'
 }
 
 export const viewport: Viewport = {
@@ -48,7 +47,6 @@ export default function RootLayout({
         >
           {children}
         </ClickSpark>
-        <Analytics />
       </body>
     </html>
   )

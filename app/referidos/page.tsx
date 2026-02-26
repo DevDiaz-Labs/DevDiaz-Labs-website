@@ -249,7 +249,7 @@ export default function ReferidosPage() {
                             <ul className="space-y-4 mb-10">
                                 {[
                                     "Para negocios con 5+ referidos exitosos.",
-                                    "Soporte técnico prioritario 24/7.",
+                                    "Soporte técnico.",
                                     "Hosting premium y actualizaciones de seguridad."
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-gray-400">

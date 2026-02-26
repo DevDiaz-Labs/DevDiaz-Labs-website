@@ -15,6 +15,9 @@ export function Navigation() {
   const pathname = usePathname()
   const router = useRouter()
 
+  // Pages with a light/white hero need dark navbar text when not scrolled
+  const hasLightHero = pathname === "/"
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
@@ -43,6 +46,7 @@ export function Navigation() {
     { label: "Productos", href: "#products" },
     { label: "Servicios", href: "#services" },
     { label: "Referidos", href: "/referidos" },
+    // { label: "Nosotros", href: "/nosotros" },
     { label: "Contacto", href: "#contact" },
   ]
 
@@ -61,7 +65,7 @@ export function Navigation() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <span className={scrolled || pathname !== "/" ? "text-white" : "text-black"}>DevDiaz</span>
+            <span className={scrolled || !hasLightHero ? "text-white" : "text-black"}>DevDiaz</span>
             <span className="text-[#00FF00] ml-1">Labs</span>
           </motion.div>
         </Link>
@@ -72,7 +76,7 @@ export function Navigation() {
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || pathname !== "/" ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
+                className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || !hasLightHero ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
                   }`}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -91,7 +95,7 @@ export function Navigation() {
             ) : (
               <Link key={item.label} href={item.href}>
                 <motion.div
-                  className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || pathname !== "/" ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
+                  className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${scrolled || !hasLightHero ? "text-white hover:text-[#00FF00]" : "text-black hover:text-[#00FF00]"
                     }`}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -152,7 +156,7 @@ export function Navigation() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X className={scrolled ? "text-white" : "text-black"} />
+                <X className={scrolled || !hasLightHero ? "text-white" : "text-black"} />
               </motion.div>
             ) : (
               <motion.div
@@ -162,7 +166,7 @@ export function Navigation() {
                 exit={{ rotate: -90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <Menu className={scrolled ? "text-white" : "text-black"} />
+                <Menu className={scrolled || !hasLightHero ? "text-white" : "text-black"} />
               </motion.div>
             )}
           </AnimatePresence>
