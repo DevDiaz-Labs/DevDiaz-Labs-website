@@ -173,7 +173,7 @@ export function Footer() {
           transition={{ delay: 0.3 }}
         >
           <p className="text-white/60 font-mono text-xs max-w-xl mx-auto leading-relaxed">
-            DevDiaz Labs es un estudio de desarrollo de software especializado en crear aplicaciones que transforman la vida de las personas.
+            DevDiaz Labs es un estudio de desarrollo de software especializado en crear soluciones que transforman la vida de las personas.
           </p>
         </motion.div>
 
@@ -193,7 +193,6 @@ export function Footer() {
         </motion.div>
 
         {/* Minimalist Footer Bar */}
-
         <motion.div
           className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/10 gap-3"
           initial={{ opacity: 0 }}
@@ -211,6 +210,12 @@ export function Footer() {
               <span className="text-[#00FF00]">Labs</span>
             </span>
           </motion.div>
+
+          <Link href="/aviso-de-privacidad">
+            <p className="text-white/40 font-mono text-xs hover:text-[#00FF00] cursor-pointer transition-colors duration-300">
+              Aviso de Privacidad
+            </p>
+          </Link>
 
           <p className="text-white/40 font-mono text-xs">© 2026 DevDiaz Labs</p>
 

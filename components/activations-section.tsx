@@ -72,7 +72,7 @@ export function ActivationsSection() {
             {
               icon: Smartphone,
               title: "Desarrollo de Apps",
-              description: "Desarrollo nativo y publicación en Play Store.",
+              description: "Aplicaciones nativas. Transformamos tu visión en una experiencia móvil inmersiva lista para Play Store.",
               href: "https://play.google.com/store/apps/dev?id=6817556477717740348",
               buttonText: "Ver en Play Store",
               external: true,
@@ -80,7 +80,7 @@ export function ActivationsSection() {
             {
               icon: Monitor,
               title: "Web & Landing Pages",
-              description: "Sitios modernos de alta conversión.",
+              description: "Desarrollo web premium. Sitios optimizados que capturan la esencia de tu marca y transforman visitantes en clientes.",
               href: "#contact",
               buttonText: "Cotizar Proyecto",
               external: false,
@@ -88,7 +88,7 @@ export function ActivationsSection() {
             {
               icon: Ticket,
               title: "Experiencias para Eventos",
-              description: "Invitaciones interactivas con mapas y RSVP.",
+              description: "Invitaciones digitales. Ecosistemas interactivos con diseño premium, logística inteligente y confirmación de asistencia en tiempo real.",
               href: "#contact",
               buttonText: "Cotizar Proyecto",
               external: false,
