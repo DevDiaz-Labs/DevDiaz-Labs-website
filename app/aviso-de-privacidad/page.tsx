@@ -83,6 +83,7 @@ export default function PrivacyNotice() {
                                 <li>Emitir facturas y comprobantes fiscales digitales (CFDI) cuando sea solicitado.</li>
                                 <li>Brindar soporte técnico y seguimiento post-entrega.</li>
                                 <li>Comunicarnos con usted para coordinar avances del proyecto.</li>
+                                <li>Nos reservamos el derecho de usar los proyectos entregados como parte de nuestro portafolio.</li>
                             </ul>
                         </section>
 
@@ -192,6 +193,7 @@ export default function PrivacyNotice() {
                                 Al utilizar nuestros servicios, proporcionar sus datos a través de nuestros canales de contacto, o continuar navegando en nuestro sitio web, usted acepta los términos del presente aviso de privacidad. Si no está de acuerdo con las prácticas descritas en este aviso, le pedimos que no proporcione información personal a través de nuestros canales de comunicación.
                             </p>
                         </section>
+
 
                         {/* Footer del Aviso */}
                         <section className="pt-10 border-t border-white/5 space-y-2">

@@ -27,18 +27,22 @@ export function Navigation() {
   }, [])
 
   const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false)
+
     if (pathname !== "/") {
       router.push(`/${id}`)
       return
     }
 
-    const element = document.querySelector(id)
-    if (element) {
-      const offset = 100
-      const top = element.getBoundingClientRect().top + window.scrollY - offset
-      window.scrollTo({ top, behavior: "smooth" })
-    }
-    setMobileMenuOpen(false)
+    // Delay scroll to allow mobile menu close animation to finish
+    setTimeout(() => {
+      const element = document.querySelector(id)
+      if (element) {
+        const offset = 100
+        const top = element.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top, behavior: "smooth" })
+      }
+    }, 350)
   }
 
   const navLinks = [

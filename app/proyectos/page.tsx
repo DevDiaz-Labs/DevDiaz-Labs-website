@@ -11,7 +11,6 @@ const PROJECTS = [
         problem: "Dependencia de recomendaciones de boca en boca y falta de presencia digital profesional que limitaba el alcance a clientes de alto perfil.",
         solution: "Sitio web moderno, rápido y enfocado en la conversión, destacando la experiencia, certificaciones y facilitando el contacto por WhatsApp.",
         result: "Mayor confianza percibida por prospectos corporativos y un aumento directo en solicitudes de mantenimiento preventivo a través de canales digitales.",
-        tags: ["Next.js", "Tailwind CSS", "Diseño UX/UI"],
     },
     {
         id: "dentista",
@@ -20,7 +19,6 @@ const PROJECTS = [
         problem: "Dificultad para explicar tratamientos complejos visualmente y una presencia web anticuada que no reflejaba la modernidad de las instalaciones de la clínica.",
         solution: "Rediseño completo de la experiencia de usuario (UX), incorporando un catálogo claro de servicios (Ortodoncia, Implantes, etc.) y un flujo de agendamiento sin fricciones.",
         result: "Reducción en el tiempo que el personal de recepción pasa explicando servicios básicos y un incremento en citas agendadas fuera de horario laboral.",
-        tags: ["React", "Diseño Responsivo", "Optimización SEO"],
     },
     {
         id: "spa",
@@ -29,7 +27,6 @@ const PROJECTS = [
         problem: "Imposibilidad de vender certificados de regalo online y un diseño web saturado que contradecía la promesa de relajación del negocio físico.",
         solution: "Estética minimalista (el poder del espacio en blanco), paletas de colores neutros/tierra y una integración fluida de paquetes de servicios.",
         result: "Aumento del 40% en ventas de paquetes de regalos para parejas y una mejora drástica en la retención de usuarios en la página de catálogo.",
-        tags: ["E-commerce", "Animaciones Suaves", "UI Premium"],
     }
 ];
 
@@ -111,13 +108,6 @@ export default function ProyectosPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-wrap gap-2 pt-4">
-                                    {project.tags.map(tag => (
-                                        <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-gray-300">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
                             </div>
 
                         </div>
