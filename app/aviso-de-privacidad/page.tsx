@@ -198,7 +198,7 @@ export default function PrivacyNotice() {
                         {/* Footer del Aviso */}
                         <section className="pt-10 border-t border-white/5 space-y-2">
                             <p className="text-xs text-gray-600 italic">
-                                DevDiaz Labs — Reynosa, Tamaulipas, México.
+                                DevDiaz Labs
                             </p>
                             <p className="text-xs text-gray-600 italic">
                                 Última actualización: Febrero 2026.
